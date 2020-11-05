@@ -1,0 +1,10 @@
+*AAfoo  
+  *BBfoo
+    *CC1
+    *CC2
+    *CC3
+    *CC4
+  *BBbar
+  *BBbaz
+*AAfubar
+*XXfooter
