@@ -45,7 +45,7 @@ public class Main {
             });
             logger.info(parsed.generate());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
     }
 
