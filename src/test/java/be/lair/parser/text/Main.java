@@ -15,7 +15,9 @@ public class Main {
 
     public Main() {
         try(InputStream inputStream = getClass().getClassLoader().getResourceAsStream("testfile.txt")) {
-            Parser<InputStream> parser = ParserFactory.instance(inputStream);
+            ParserFactory factory = new ParserFactory();
+            factory.setRecordIdentifier("\\*");
+            Parser<InputStream> parser = factory.instance(inputStream);
             parser.addSectionAddedListener((parent, record) -> {
                 if(record != null) {
                     String identifier = record.getRecordIdentifier();
@@ -25,7 +27,7 @@ public class Main {
                             record.addSectionAddedListener((parent1, section1) -> logger.warn("Section added to B"));
                             break;
                         default:
-                            logger.info("Record Event fired by: {} ", identifier);
+                            logger.info("Default Record Event fired by: {} ", identifier);
                     }
                 } else {
                     throw new RuntimeException("Something went very wrong");
@@ -43,7 +45,7 @@ public class Main {
                         // nothing to see here, moving along
                 }
             });
-            logger.info(parsed.generate());
+            logger.info("Generated: \n" + parsed.generate());
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }

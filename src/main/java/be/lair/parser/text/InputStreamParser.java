@@ -30,9 +30,8 @@ public class InputStreamParser extends Parser<InputStream> {
             while ((line = reader.readLine()) != null) {
                 builder.append(line.stripLeading()); // leading spaces (and newlines) only added in test file for clarity
             }
-            Queue<String> fileContents = Arrays.stream(builder.toString()
-                    .split("\\*"))
-                    .collect(Collectors.toCollection(LinkedList::new));
+            Queue<String> fileContents = Arrays.stream(builder.toString().split(getRecordIdentifier()))
+                .collect(Collectors.toCollection(LinkedList::new));
 
             String record;
             while((record = fileContents.poll()) != null) {

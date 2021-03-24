@@ -4,13 +4,31 @@ import java.io.InputStream;
 
 public class ParserFactory {
 
-    private ParserFactory() {}
+    private String recordIdentifier = "\n";
 
-    public static <T, R extends Parser<T>> R instance(T input) {
+    public <T, R extends Parser<T>> R instance(T input) {
         if(input instanceof InputStream){
-            return (R)new InputStreamParser((InputStream)input);
+            InputStreamParser parser = new InputStreamParser((InputStream)input);
+            parser.setRecordIdentifier(recordIdentifier);
+            return (R)parser;
         } else {
             throw new RuntimeException("No parser for " + input.getClass());
         }
+    }
+
+    public String getRecordIdentifier() {
+        return recordIdentifier;
+    }
+
+    /**
+     * Set the string that identifies individual records
+     *
+     * This is used to split the file at the record boundaries, as
+     * well as to generate output through generate()
+     *
+     * @param recordIdentifier needs to be a valid Java regex
+     */
+    public void setRecordIdentifier(String recordIdentifier) {
+        this.recordIdentifier = recordIdentifier;
     }
 }
